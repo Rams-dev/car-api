@@ -5,7 +5,6 @@ const productModel = require('./src/models/productModel')
 const carModel = require('./src/models/carModel')
 const carDetailsModel = require('./src/models/carDetailsModel')
 
-
 const sequelize = new Sequelize(
     'carapi', 'root', '', {
         host: 'localhost', dialect: 'mysql'

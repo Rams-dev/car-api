@@ -15,7 +15,12 @@ function createJwt(user){
 }
 
 
-function isLogged(req, res, nex){
+function isLogged(req, res, next){
+    if(!req.headers['authorization']){
+        return res.status(401).json({
+            "message":"unAuthorized"
+        })
+    }
     const userToken = req.headers['authorization'].split(' ')[1]
     let payload = {}
     try{

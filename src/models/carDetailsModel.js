@@ -6,9 +6,8 @@ module.exports = (sequelize, type) => {
             autoIncrement: true
         },
         carId:type.INTEGER,
-        productName: type.STRING,
-        amount: type.INTEGER,
-        price:type.DECIMAL
+        product_id: type.INTEGER,
+        amount: type.INTEGER
     })
 
 }
