@@ -16,6 +16,12 @@ const products = productModel(sequelize, Sequelize)
 const cars = carModel(sequelize, Sequelize)
 const carDetails = carDetailsModel(sequelize, Sequelize)
 
+cars.hasOne(carDetails,{foreignKey: {
+    name: 'id'
+  }})
+
+carDetails.belongsTo(cars)
+
 sequelize.sync({force:false})
 .then(() => {
     console.log("db connect")

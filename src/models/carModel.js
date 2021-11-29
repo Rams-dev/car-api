@@ -1,4 +1,4 @@
-module.exports = (sequelize, type) => {
+const car = (sequelize, type) => {
     return sequelize.define('car',{
         id:{
            type: type.INTEGER,
@@ -12,3 +12,5 @@ module.exports = (sequelize, type) => {
     })
 
 }
+
+module.exports = car

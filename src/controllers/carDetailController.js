@@ -1,6 +1,13 @@
 const {cars, carDetails} = require('../../sequelizeDBMysql')
 const {update} = require('./carController')
 const {calculatefinalPriceProductplus, calculatefinalPriceProductless} = require('../helpers/products')
+
+
+async function existItem(item, carId){
+    const cardetail = await carDetails.findOne({where:{carId:carId, product_id:item}})
+    return cardetail
+}
+
 /****
  * 
  * create function recive userid and price total.
@@ -12,17 +19,18 @@ const {calculatefinalPriceProductplus, calculatefinalPriceProductless} = require
  * @param {productId, userId, amount} req 
  * @param {*} res 
  */
-async function existItem(item, carId){
-    const cardetail = await carDetails.findOne({where:{carId:carId, product_id:item}})
-    return cardetail
-}
-
 
 async function show(req, res) {
-    // const {userId} =  req
-    const car = await cars.findAll()
-    res.status(200).json({"user_id": req.userId})
+    const [results, metadata] = await cars.sequelize.query(
+        `select * from cars 
+        inner join carDetails on cars.id = carDetails.carId
+        inner join products on carDetails.product_id = products.id 
+        where cars.userId = :userId`,{
+        replacements: { userId: req.userId},
+        plain: false,
+    })
 
+    res.status(200).json({"data": results})
 }
 
 
