@@ -12,7 +12,6 @@ async function emailNotExist(req, res, next){
         })
     }
     next()
-
 }
 
 module.exports = emailNotExist

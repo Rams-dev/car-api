@@ -16,6 +16,7 @@ const RegisterValidation = [
         .notEmpty(),
     body('email')
         .isEmail()
+        .withMessage("Email incorrect")
         .notEmpty(),
     body('password')
         .isLength({ min: 4 })
