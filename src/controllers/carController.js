@@ -1,4 +1,4 @@
-const {cars} = require('../../sequelizeDBMysql')
+const {cars, carDetails} = require('../../sequelizeDBMysql')
 /****
  * 
  * create function recive userid and price total.
@@ -8,15 +8,9 @@ const {cars} = require('../../sequelizeDBMysql')
 async function store(obj){
     let car = await cars.create(obj)
     return car.id
-    // res.status(201).json({
-    //     "message": "Car created"
-    // })
 }
 
 async function update(carId, obj){
-    console.log("objs")
-    console.log(obj)
-    console.log("card"+ carId)
     try{
         await cars.update(obj,{
             where:{
@@ -29,11 +23,17 @@ async function update(carId, obj){
     }
 }
 
-
 async function destroy(req, res){
-    const {id} = req.params
+    const {carId} = req.params
     try{
-        const cardelte = await cars.destroy({where:{id:id}})
+        const deleted = await carDetails.destroy(
+            {
+                where:{
+                    carId: carId
+                }
+            }
+        )
+        const cardelte = await cars.destroy({where:{id:carId}})
         res.json({
             "message":"car deleted"
         })

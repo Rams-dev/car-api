@@ -1,4 +1,6 @@
 const {products, users} = require('../../sequelizeDBMysql')
+const errorsValidation = require('../middlewares/errorsValidation')
+
 
 
 async function get(req, res){
@@ -21,6 +23,7 @@ async function get(req, res){
     "category" on de requestBody
  */
 async function store(req, res){
+    errorsValidation(req, res)
 
     try{
         const product = await products.create(req.body)

@@ -1,0 +1,38 @@
+const { body } = require('express-validator');
+
+const loginValidation = [
+    body('name')
+        .isEmail()
+        .notEmpty(),
+    body('password')
+        .isLength({ min: 4 })
+        .notEmpty(),
+];
+
+
+const RegisterValidation = [
+    body('name')
+        .isString()
+        .notEmpty(),
+    body('email')
+        .isEmail()
+        .notEmpty(),
+    body('password')
+        .isLength({ min: 4 })
+        .withMessage('password must be min 4 characters')
+        .notEmpty(),
+];
+
+const productValidation = [
+    body('name')
+        .isString()
+        .notEmpty(),
+    body('price')
+        .isNumeric(),
+    body('category')
+        .isString()
+        .trim()
+        .notEmpty()
+]
+
+module.exports = {loginValidation, productValidation, RegisterValidation}

@@ -1,10 +1,12 @@
 const bcrypt = require('bcrypt')
 const {users} = require('../../../sequelizeDBMysql')
 const { createJwt } = require('../../helpers/JWT.js')
+const errorsValidation = require('../../middlewares/errorsValidation')
 // const UserRepository = require('../../repositories/UserRepository')
 
 async function login(req, res) {
     // const Repository = new UserRepository()
+    errorsValidation(req, res)
     const {email, password} = req.body
     const user = await users.findOne({where:{email:email}})
     
@@ -25,6 +27,8 @@ async function login(req, res) {
 }
 
 async function register(req, res){ 
+    errorsValidation(req, res)
+
     req.body.password = bcrypt.hashSync(req.body.password,10)
 
     const newUser = await users.create(req.body)
