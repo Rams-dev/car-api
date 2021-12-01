@@ -4,6 +4,9 @@ const userModel = require('./src/models/usersModel')
 const productModel = require('./src/models/productModel')
 const carModel = require('./src/models/carModel')
 const carDetailsModel = require('./src/models/carDetailsModel')
+const orderDetailsModel = require('./src/models/orderDetailsModel')
+const orderModel = require('./src/models/orderModel')
+
 
 const sequelize = new Sequelize(
     'carapi', 'root', '', {
@@ -15,6 +18,8 @@ const users = userModel(sequelize, Sequelize)
 const products = productModel(sequelize, Sequelize)
 const cars = carModel(sequelize, Sequelize)
 const carDetails = carDetailsModel(sequelize, Sequelize)
+const order = carDetailsModel(sequelize, Sequelize)
+const orderDetails = carDetailsModel(sequelize, Sequelize)
 
 cars.hasOne(carDetails,{foreignKey: {
     name: 'id'
