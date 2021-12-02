@@ -9,6 +9,5 @@ module.exports = (sequelize, type) => {
         product_name: type.STRING,
         product_price: type.DECIMAL,
         product_amount: type.DECIMAL,
-        amount: type.INTEGER,
     })
 }
