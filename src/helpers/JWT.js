@@ -1,9 +1,10 @@
 const moment = require('moment')
 const jwt = require('jwt-simple')
-const {key} = require('../settings')
+const { key } = require('../settings')
+const { users } = require('../../sequelizeDBMysql')
 
 
-function createJwt(user){
+function createJwt(user) {
     let payload = {
         userId: user.id,
         createAt: moment().unix(),
@@ -15,28 +16,36 @@ function createJwt(user){
 }
 
 
-function isLogged(req, res, next){
-    if(!req.headers['authorization']){
+async function isLogged(req, res, next) {
+    if (!req.headers['authorization']) {
         return res.status(401).json({
-            "message":"unAuthorized"
+            "message": "unAuthorized"
         })
     }
     const userToken = req.headers['authorization'].split(' ')[1]
     let payload = {}
-    try{
+    try {
         payload = jwt.decode(userToken, key)
-    }catch{
+    } catch {
         return res.status(401).json({
-            "message":"your are not authorized"
+            "message": "your are not authorized"
         })
     }
 
-    if(payload.expireAt < moment.unix()){
-        res.status(401).json({'message':'token expired'})
+    if (payload.expireAt < moment.unix()) {
+        res.status(401).json({ 'message': 'token expired' })
+    }
+    const user = await users.findOne({ where: { id: payload.userId } })
+    if (user) {
+        req.userId = payload.userId
+        next()
+    } else {
+        res.status(401).json({
+            "message": "you are not authorized"
+
+        })
     }
 
-    req.userId = payload.userId 
-    next()
 }
 
-module.exports = {isLogged,createJwt}
+module.exports = { isLogged, createJwt }

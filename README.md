@@ -23,6 +23,7 @@ in this project you could doing petitions through postman, insomnia or front end
 
 ##### order   #####
 - post: /order/:carId
+- get: /order
 - get: /order/:orderId
 
 ## how to run ##

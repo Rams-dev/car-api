@@ -1,11 +1,8 @@
 const { body } = require('express-validator');
 
 const loginValidation = [
-    body('name')
+    body('email')
         .isEmail()
-        .notEmpty(),
-    body('password')
-        .isLength({ min: 4 })
         .notEmpty(),
 ];
 
