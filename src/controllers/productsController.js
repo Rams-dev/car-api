@@ -23,8 +23,6 @@ async function get(req, res){
     "category" on de requestBody
  */
 async function store(req, res){
-    errorsValidation(req, res)
-
     try{
         const product = await products.create(req.body)
         res.status(201).json({
@@ -40,7 +38,7 @@ async function store(req, res){
 
 async function show(req, res) {
     const {productId} = req.params
-    let product = await users.findOne({where:{id: productId}})
+    let product = await products.findOne({where:{id: productId}})
     console.log(product)
     // if(product){
         res.status(200).json({"data": product}) 
@@ -52,19 +50,20 @@ async function show(req, res) {
 
 
 async function destroy(req, res) {
-     const {id} = req.params
-    let product = await users.findOne({where:{id}})
-    if(product){
-        await users.destroy({
+     const {productId} = req.params
+    let productExist = await products.findOne({where:{id: productId}})
+    if(productExist){
+        await products.destroy({
             where:{
-                id:id
+                id:productId
             }
         })
-        res.status(200).json({"message": "product deleted"}) 
-    }else{
-        res.status(404).json({"message": "error"})   
-
+        return res.status(200).json({"message": "product deleted"}) 
     }
+
+    return res.status(404).json({"message": "El producto no existe"})   
+
+    
     
 
 }
